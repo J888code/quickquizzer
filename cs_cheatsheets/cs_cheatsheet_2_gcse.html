@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS Cheat Sheet 2 — GCSE DualCS</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap');
+
+  :root {
+    --bg: #0d0d14;
+    --surface: #13131f;
+    --surface2: #1a1a2e;
+    --accent: #7c3aed;
+    --accent2: #a78bfa;
+    --accent3: #f59e0b;
+    --green: #10b981;
+    --red: #ef4444;
+    --blue: #3b82f6;
+    --text: #e2e8f0;
+    --muted: #6b7280;
+    --border: #1e1e35;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    line-height: 1.6;
+    padding: 2rem 1rem;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, #13131f, #1a1a2e);
+    border: 1px solid var(--accent);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(124,58,237,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .badge {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  h1 { font-size: 2rem; font-weight: 800; color: var(--accent2); margin-bottom: 0.5rem; }
+  .subtitle { color: var(--muted); font-size: 1rem; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: border-color 0.2s;
+  }
+
+  .card:hover { border-color: var(--accent2); }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .card-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .v { background: rgba(124,58,237,0.2); color: var(--accent2); }
+  .g { background: rgba(16,185,129,0.2); color: var(--green); }
+  .b { background: rgba(59,130,246,0.2); color: var(--blue); }
+  .o { background: rgba(245,158,11,0.2); color: var(--accent3); }
+  .r { background: rgba(239,68,68,0.2); color: var(--red); }
+
+  .card h2 { font-size: 1rem; font-weight: 700; }
+
+  .card h3 {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 1rem 0 0.4rem;
+  }
+
+  code, pre { font-family: 'JetBrains Mono', monospace; }
+
+  pre {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.9rem;
+    font-size: 0.78rem;
+    overflow-x: auto;
+    margin: 0.5rem 0;
+    line-height: 1.7;
+  }
+
+  .kw { color: #c084fc; }
+  .fn { color: #60a5fa; }
+  .str { color: #86efac; }
+  .num { color: #fca5a5; }
+  .cm { color: #4b5563; font-style: italic; }
+
+  .pill-list { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+  .pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent2);
+  }
+
+  ul.cl { list-style: none; margin-top: 0.5rem; }
+  ul.cl li {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.3rem 0;
+    font-size: 0.85rem;
+    border-bottom: 1px solid var(--border);
+  }
+  ul.cl li:last-child { border-bottom: none; }
+  ul.cl li::before { content: '◆'; color: var(--accent2); font-size: 0.6rem; margin-top: 0.35rem; flex-shrink: 0; }
+
+  .tip {
+    background: rgba(124,58,237,0.1);
+    border-left: 3px solid var(--accent);
+    padding: 0.6rem 0.9rem;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.83rem;
+    margin-top: 0.75rem;
+  }
+
+  .exam {
+    background: rgba(245,158,11,0.1);
+    border-left: 3px solid var(--accent3);
+    padding: 0.6rem 0.9rem;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.83rem;
+    margin-top: 0.75rem;
+  }
+
+  .full-width { grid-column: 1 / -1; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+  }
+
+  th {
+    background: var(--surface2);
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    color: var(--muted);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  td {
+    padding: 0.45rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.82rem;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  .section-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--accent2);
+    margin: 2.5rem auto 1rem;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 600px) {
+    .two-col { grid-template-columns: 1fr; }
+    h1 { font-size: 1.5rem; }
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    margin-left: 0.25rem;
+    font-weight: 700;
+  }
+  .tag-as { background: rgba(245,158,11,0.2); color: var(--accent3); }
+  .tag-gc { background: rgba(16,185,129,0.2); color: var(--green); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="badge">Cheat Sheet 2 of 3</div>
+  <h1>GCSE Computer Science</h1>
+  <p class="subtitle">Edexcel GCSE (1CP2) — DualCS track at the Perse · Y10 & Y11</p>
+  <p style="color:var(--muted);font-size:0.8rem;margin-top:0.75rem">
+    <span class="tag tag-gc">GCSE</span> = GCSE only &nbsp;&nbsp;
+    <span class="tag tag-as">AS</span> = Also covers AS Level content
+  </p>
+</div>
+
+<p class="section-title">💻 Programming</p>
+<div class="grid">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon v">OOP</div>
+      <h2>Object Oriented Programming <span class="tag tag-as">AS</span></h2>
+    </div>
+    <pre><span class="cm"># Class definition</span>
+<span class="kw">class</span> <span class="fn">Student</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, <span class="var">name</span>, <span class="var">year</span>):
+        <span class="kw">self</span>.<span class="var">name</span> = <span class="var">name</span>
+        <span class="kw">self</span>.<span class="var">year</span> = <span class="var">year</span>
+        <span class="kw">self</span>.<span class="var">score</span> = <span class="num">0</span>
+
+    <span class="kw">def</span> <span class="fn">add_score</span>(<span class="kw">self</span>, <span class="var">points</span>):
+        <span class="kw">self</span>.<span class="var">score</span> += <span class="var">points</span>
+
+    <span class="kw">def</span> <span class="fn">__str__</span>(<span class="kw">self</span>):
+        <span class="kw">return</span> <span class="str">f"</span>{<span class="kw">self</span>.<span class="var">name</span>}<span class="str"> (Y</span>{<span class="kw">self</span>.<span class="var">year</span>}<span class="str">): </span>{<span class="kw">self</span>.<span class="var">score</span>}<span class="str">"</span>
+
+<span class="cm"># Create objects</span>
+<span class="var">alex</span> = <span class="fn">Student</span>(<span class="str">"Alex"</span>, <span class="num">10</span>)
+<span class="var">alex</span>.<span class="fn">add_score</span>(<span class="num">95</span>)
+<span class="fn">print</span>(<span class="var">alex</span>)  <span class="cm"># Alex (Y10): 95</span></pre>
+    <ul class="cl" style="margin-top:0.75rem">
+      <li><strong>Class</strong> — blueprint for objects</li>
+      <li><strong>Object</strong> — instance of a class</li>
+      <li><strong>Attribute</strong> — variable belonging to object (self.name)</li>
+      <li><strong>Method</strong> — function belonging to object</li>
+      <li><strong>Constructor</strong> — __init__ sets up the object</li>
+      <li><strong>Encapsulation</strong> — keeping data inside the class</li>
+      <li><strong>Inheritance</strong> — child class gets parent's methods</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon g">λ</div>
+      <h2>Advanced Python Concepts <span class="tag tag-as">AS</span></h2>
+    </div>
+    <h3>List Comprehensions</h3>
+    <pre><span class="cm"># Normal way</span>
+<span class="var">squares</span> = []
+<span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">10</span>):
+    <span class="var">squares</span>.<span class="fn">append</span>(<span class="var">i</span>**<span class="num">2</span>)
+
+<span class="cm"># List comprehension (1 line!)</span>
+<span class="var">squares</span> = [<span class="var">i</span>**<span class="num">2</span> <span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">10</span>)]
+
+<span class="cm"># With condition</span>
+<span class="var">evens</span> = [<span class="var">i</span> <span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">20</span>) <span class="kw">if</span> <span class="var">i</span> % <span class="num">2</span> == <span class="num">0</span>]</pre>
+    <h3>Lambda Functions</h3>
+    <pre><span class="cm"># Normal function</span>
+<span class="kw">def</span> <span class="fn">double</span>(<span class="var">x</span>): <span class="kw">return</span> <span class="var">x</span> * <span class="num">2</span>
+
+<span class="cm"># Lambda (anonymous function)</span>
+<span class="var">double</span> = <span class="kw">lambda</span> <span class="var">x</span>: <span class="var">x</span> * <span class="num">2</span>
+
+<span class="cm"># Sort by second element</span>
+<span class="var">data</span> = [(<span class="str">"a"</span>, <span class="num">3</span>), (<span class="str">"b"</span>, <span class="num">1</span>), (<span class="str">"c"</span>, <span class="num">2</span>)]
+<span class="var">data</span>.<span class="fn">sort</span>(<span class="var">key</span>=<span class="kw">lambda</span> <span class="var">x</span>: <span class="var">x</span>[<span class="num">1</span>])</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon b">↗</div>
+      <h2>Recursion <span class="tag tag-as">AS</span></h2>
+    </div>
+    <pre><span class="cm"># Function that calls itself</span>
+<span class="kw">def</span> <span class="fn">factorial</span>(<span class="var">n</span>):
+    <span class="kw">if</span> <span class="var">n</span> <= <span class="num">1</span>:          <span class="cm"># base case!</span>
+        <span class="kw">return</span> <span class="num">1</span>
+    <span class="kw">return</span> <span class="var">n</span> * <span class="fn">factorial</span>(<span class="var">n</span>-<span class="num">1</span>)
+
+<span class="fn">factorial</span>(<span class="num">5</span>)
+<span class="cm"># = 5 * factorial(4)</span>
+<span class="cm"># = 5 * 4 * factorial(3)</span>
+<span class="cm"># = 5 * 4 * 3 * 2 * 1</span>
+<span class="cm"># = 120</span>
+
+<span class="cm"># Fibonacci</span>
+<span class="kw">def</span> <span class="fn">fib</span>(<span class="var">n</span>):
+    <span class="kw">if</span> <span class="var">n</span> <= <span class="num">1</span>: <span class="kw">return</span> <span class="var">n</span>
+    <span class="kw">return</span> <span class="fn">fib</span>(<span class="var">n</span>-<span class="num">1</span>) + <span class="fn">fib</span>(<span class="var">n</span>-<span class="num">2</span>)</pre>
+    <div class="exam">Exam tip: Always need a BASE CASE — otherwise infinite recursion = crash!</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon o">🗄</div>
+      <h2>Data Structures <span class="tag tag-as">AS</span></h2>
+    </div>
+    <h3>Stack (LIFO — Last In First Out)</h3>
+    <pre><span class="var">stack</span> = []
+<span class="var">stack</span>.<span class="fn">append</span>(<span class="num">1</span>)  <span class="cm"># push</span>
+<span class="var">stack</span>.<span class="fn">append</span>(<span class="num">2</span>)
+<span class="var">stack</span>.<span class="fn">pop</span>()      <span class="cm"># returns 2 (last in)</span></pre>
+    <h3>Queue (FIFO — First In First Out)</h3>
+    <pre><span class="kw">from</span> <span class="fn">collections</span> <span class="kw">import</span> <span class="fn">deque</span>
+<span class="var">q</span> = <span class="fn">deque</span>()
+<span class="var">q</span>.<span class="fn">append</span>(<span class="num">1</span>)      <span class="cm"># enqueue</span>
+<span class="var">q</span>.<span class="fn">popleft</span>()      <span class="cm"># dequeue (returns 1)</span></pre>
+    <h3>When to use which</h3>
+    <table>
+      <tr><th>Structure</th><th>Use for</th></tr>
+      <tr><td>Stack</td><td>Undo history, browser back button</td></tr>
+      <tr><td>Queue</td><td>Print queue, task scheduling</td></tr>
+      <tr><td>Dictionary</td><td>Fast lookup by key</td></tr>
+      <tr><td>List</td><td>Ordered collection, indexed access</td></tr>
+    </table>
+  </div>
+
+</div>
+
+<p class="section-title">🔬 Computer Systems</p>
+<div class="grid">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon v">🔢</div>
+      <h2>Data Representation</h2>
+    </div>
+    <h3>Binary Arithmetic</h3>
+    <pre>  0 1 1 0 1  (13)
++ 0 0 1 0 1  (5)
+-----------
+  1 0 0 1 0  (18)
+
+Rules: 0+0=0, 0+1=1, 1+1=10 (carry)</pre>
+    <h3>Hexadecimal</h3>
+    <table>
+      <tr><th>Denary</th><th>Binary</th><th>Hex</th></tr>
+      <tr><td>10</td><td>1010</td><td>A</td></tr>
+      <tr><td>11</td><td>1011</td><td>B</td></tr>
+      <tr><td>12</td><td>1100</td><td>C</td></tr>
+      <tr><td>13</td><td>1101</td><td>D</td></tr>
+      <tr><td>14</td><td>1110</td><td>E</td></tr>
+      <tr><td>15</td><td>1111</td><td>F</td></tr>
+    </table>
+    <h3>Character Encoding</h3>
+    <ul class="cl">
+      <li><strong>ASCII</strong> — 7-bit, 128 characters, basic English</li>
+      <li><strong>Unicode</strong> — 16/32-bit, millions of characters, all languages + emoji</li>
+      <li><strong>UTF-8</strong> — Variable width Unicode encoding, most common on web</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon g">📸</div>
+      <h2>Images, Sound & Compression</h2>
+    </div>
+    <h3>Images</h3>
+    <ul class="cl">
+      <li><strong>Pixel</strong> — single dot of colour in an image</li>
+      <li><strong>Resolution</strong> — number of pixels (width × height)</li>
+      <li><strong>Colour depth</strong> — bits per pixel. 24-bit = 16.7 million colours</li>
+      <li><strong>File size</strong> = pixels × colour depth (bits) / 8 (bytes)</li>
+    </ul>
+    <h3>Sound</h3>
+    <ul class="cl">
+      <li><strong>Sample rate</strong> — how many times per second sound is measured (Hz)</li>
+      <li><strong>Bit depth</strong> — bits per sample, affects quality</li>
+      <li><strong>File size</strong> = sample rate × bit depth × duration × channels</li>
+    </ul>
+    <h3>Compression</h3>
+    <ul class="cl">
+      <li><strong>Lossy</strong> — removes data permanently. Smaller file, lower quality (MP3, JPEG)</li>
+      <li><strong>Lossless</strong> — no data lost. Can restore exactly. Larger file (PNG, FLAC)</li>
+      <li><strong>Run-Length Encoding (RLE)</strong> — replaces repeated data with count+value</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon b">⚙️</div>
+      <h2>Software & Operating Systems</h2>
+    </div>
+    <ul class="cl">
+      <li><strong>OS</strong> — manages hardware, memory, files, user interface</li>
+      <li><strong>Kernel</strong> — core of OS, manages CPU and memory directly</li>
+      <li><strong>Device Driver</strong> — software allowing OS to communicate with hardware</li>
+      <li><strong>Virtual Memory</strong> — using storage as overflow RAM when RAM is full</li>
+      <li><strong>Multitasking</strong> — appearing to run multiple programs simultaneously</li>
+      <li><strong>Interrupt</strong> — signal to CPU to pause and handle event</li>
+    </ul>
+    <h3>Types of Software</h3>
+    <ul class="cl">
+      <li><strong>System software</strong> — OS, utilities, device drivers</li>
+      <li><strong>Application software</strong> — programs users run (Word, Chrome)</li>
+      <li><strong>Open source</strong> — source code is public, anyone can modify</li>
+      <li><strong>Proprietary</strong> — source code is private, licence required</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon o">🌐</div>
+      <h2>Networks In Depth</h2>
+    </div>
+    <h3>Network Topologies</h3>
+    <ul class="cl">
+      <li><strong>Star</strong> — all devices connect to central switch. Fast, easy to manage, switch = single point of failure</li>
+      <li><strong>Bus</strong> — all devices on one cable. Cheap but slow and one break kills network</li>
+      <li><strong>Mesh</strong> — devices connect to each other. Reliable, expensive</li>
+    </ul>
+    <h3>Protocols</h3>
+    <table>
+      <tr><th>Protocol</th><th>Purpose</th></tr>
+      <tr><td>TCP/IP</td><td>Core internet protocol, reliable delivery</td></tr>
+      <tr><td>HTTP/HTTPS</td><td>Web pages (S = encrypted with TLS)</td></tr>
+      <tr><td>FTP</td><td>File transfer</td></tr>
+      <tr><td>SMTP/IMAP</td><td>Email sending / receiving</td></tr>
+      <tr><td>SSH</td><td>Secure remote access (ethical hacking!)</td></tr>
+      <tr><td>DNS</td><td>Domain name → IP address</td></tr>
+    </table>
+  </div>
+
+</div>
+
+<p class="section-title">🧮 Algorithms & Problem Solving</p>
+<div class="grid">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon g">🔍</div>
+      <h2>Searching Algorithms</h2>
+    </div>
+    <h3>Binary Search (much faster than linear!)</h3>
+    <pre><span class="kw">def</span> <span class="fn">binary_search</span>(<span class="var">lst</span>, <span class="var">target</span>):
+    <span class="var">low</span>, <span class="var">high</span> = <span class="num">0</span>, <span class="fn">len</span>(<span class="var">lst</span>) - <span class="num">1</span>
+    <span class="kw">while</span> <span class="var">low</span> <= <span class="var">high</span>:
+        <span class="var">mid</span> = (<span class="var">low</span> + <span class="var">high</span>) // <span class="num">2</span>
+        <span class="kw">if</span> <span class="var">lst</span>[<span class="var">mid</span>] == <span class="var">target</span>:
+            <span class="kw">return</span> <span class="var">mid</span>
+        <span class="kw">elif</span> <span class="var">lst</span>[<span class="var">mid</span>] < <span class="var">target</span>:
+            <span class="var">low</span> = <span class="var">mid</span> + <span class="num">1</span>
+        <span class="kw">else</span>:
+            <span class="var">high</span> = <span class="var">mid</span> - <span class="num">1</span>
+    <span class="kw">return</span> -<span class="num">1</span></pre>
+    <div class="exam">List MUST be sorted for binary search to work!</div>
+    <h3>Complexity Comparison</h3>
+    <table>
+      <tr><th>Algorithm</th><th>Time Complexity</th></tr>
+      <tr><td>Linear search</td><td>O(n) — check every item</td></tr>
+      <tr><td>Binary search</td><td>O(log n) — halve each time</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon b">📊</div>
+      <h2>Sorting Algorithms</h2>
+    </div>
+    <h3>Merge Sort (faster, O(n log n))</h3>
+    <pre><span class="kw">def</span> <span class="fn">merge_sort</span>(<span class="var">lst</span>):
+    <span class="kw">if</span> <span class="fn">len</span>(<span class="var">lst</span>) <= <span class="num">1</span>:
+        <span class="kw">return</span> <span class="var">lst</span>
+    <span class="var">mid</span> = <span class="fn">len</span>(<span class="var">lst</span>) // <span class="num">2</span>
+    <span class="var">left</span> = <span class="fn">merge_sort</span>(<span class="var">lst</span>[:<span class="var">mid</span>])
+    <span class="var">right</span> = <span class="fn">merge_sort</span>(<span class="var">lst</span>[<span class="var">mid</span>:])
+    <span class="kw">return</span> <span class="fn">merge</span>(<span class="var">left</span>, <span class="var">right</span>)</pre>
+    <h3>Algorithm Comparison</h3>
+    <table>
+      <tr><th>Algorithm</th><th>Best</th><th>Worst</th><th>Notes</th></tr>
+      <tr><td>Bubble Sort</td><td>O(n)</td><td>O(n²)</td><td>Simple, slow</td></tr>
+      <tr><td>Merge Sort</td><td>O(n log n)</td><td>O(n log n)</td><td>Consistent</td></tr>
+      <tr><td>Insertion Sort</td><td>O(n)</td><td>O(n²)</td><td>Good for small lists</td></tr>
+    </table>
+    <div class="tip">Big O notation measures how algorithm speed scales with input size. O(log n) is very fast!</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon v">📐</div>
+      <h2>Computational Thinking</h2>
+    </div>
+    <ul class="cl">
+      <li><strong>Decomposition</strong> — break big problem into smaller problems</li>
+      <li><strong>Abstraction</strong> — focus on important details, ignore irrelevant ones</li>
+      <li><strong>Pattern Recognition</strong> — spot similarities between problems</li>
+      <li><strong>Algorithm Design</strong> — create step-by-step solution</li>
+    </ul>
+    <h3>Pseudocode & Flowcharts</h3>
+    <pre>BEGIN
+  INPUT name
+  IF name = "Alex" THEN
+    OUTPUT "Welcome!"
+  ELSE
+    OUTPUT "Hello " + name
+  END IF
+END</pre>
+    <div class="exam">Exams often ask you to write pseudocode or trace through it — practice reading it!</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon r">🔒</div>
+      <h2>Cybersecurity In Depth</h2>
+    </div>
+    <h3>Types of Attack</h3>
+    <ul class="cl">
+      <li><strong>DoS/DDoS</strong> — flood server with requests to crash it</li>
+      <li><strong>Man in the Middle</strong> — intercept communications between two parties</li>
+      <li><strong>SQL Injection</strong> — inject malicious SQL into input fields</li>
+      <li><strong>XSS</strong> — inject malicious scripts into websites</li>
+      <li><strong>Keylogging</strong> — record every keypress to steal passwords</li>
+    </ul>
+    <h3>Defences</h3>
+    <ul class="cl">
+      <li><strong>Input validation</strong> — check data before processing</li>
+      <li><strong>Parameterised queries</strong> — prevent SQL injection</li>
+      <li><strong>HTTPS/TLS</strong> — encrypt data in transit</li>
+      <li><strong>Hashing passwords</strong> — never store plain text passwords</li>
+      <li><strong>Penetration testing</strong> — ethically hack your own systems to find weaknesses</li>
+    </ul>
+    <div class="tip">Pen testing is literally the ethical hacking career path — this is your area!</div>
+  </div>
+
+</div>
+
+<p class="section-title">📋 Exam Structure</p>
+<div class="grid">
+
+  <div class="card full-width">
+    <div class="card-header">
+      <div class="card-icon o">📝</div>
+      <h2>Edexcel GCSE CS (1CP2) — What You'll Be Assessed On</h2>
+    </div>
+    <div class="two-col">
+      <div>
+        <h3>Paper 1 — Computational Thinking (50%)</h3>
+        <ul class="cl">
+          <li>1hr 30min written exam</li>
+          <li>Algorithms and problem solving</li>
+          <li>Pseudocode and flowcharts</li>
+          <li>Trace tables</li>
+          <li>Data representation (binary, hex)</li>
+          <li>Computer systems theory</li>
+          <li>Networks and security</li>
+        </ul>
+        <h3 style="margin-top:1rem">Paper 2 — Application of Computational Thinking (50%)</h3>
+        <ul class="cl">
+          <li>1hr 30min on-screen exam</li>
+          <li>Write actual code to solve problems</li>
+          <li>Debug given code</li>
+          <li>Extend and modify programs</li>
+          <li>This is where your Python skills shine</li>
+        </ul>
+      </div>
+      <div>
+        <h3>DualCS Additional — AS Papers (optional fee)</h3>
+        <ul class="cl">
+          <li>Paper 1 (50%) — On-screen programming 1hr 45min</li>
+          <li>Paper 2 (50%) — Written theory 1hr 30min</li>
+          <li>AQA AS Level (7516)</li>
+          <li>Deeper programming questions</li>
+          <li>More complex algorithms</li>
+          <li>OOP and data structures</li>
+        </ul>
+        <div class="tip" style="margin-top:1rem">Even if you don't sit the AS papers, the DualCS content prepares you massively for A Level CS at Hills Road.</div>
+        <div class="exam" style="margin-top:0.75rem">Grade 9 target: Aim to explain every answer fully. Show working. Use correct technical vocabulary.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p style="text-align:center; color: var(--muted); font-size:0.8rem; margin-top:2rem; padding:1rem">
+  Cheat Sheet 2 of 3 — GCSE DualCS | Perse pathway to Hills Road → Cambridge
+</p>
+
+</body>
+</html>

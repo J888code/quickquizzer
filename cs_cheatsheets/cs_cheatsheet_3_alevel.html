@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS Cheat Sheet 3 — A Level CS</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;500;700;900&display=swap');
+
+  :root {
+    --bg: #080c10;
+    --surface: #0f1419;
+    --surface2: #161c23;
+    --accent: #f97316;
+    --accent2: #fb923c;
+    --accent3: #fbbf24;
+    --blue: #38bdf8;
+    --green: #34d399;
+    --purple: #c084fc;
+    --red: #f87171;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --border: #1e2530;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    line-height: 1.6;
+    padding: 2rem 1rem;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, #0f1419, #161c23);
+    border: 1px solid var(--accent);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at top, rgba(249,115,22,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .badge {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  h1 { font-size: 2rem; font-weight: 900; color: var(--accent2); margin-bottom: 0.5rem; }
+  .subtitle { color: var(--muted); font-size: 1rem; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: border-color 0.2s;
+  }
+
+  .card:hover { border-color: var(--accent); }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .card-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+  }
+
+  .o { background: rgba(249,115,22,0.2); color: var(--accent2); }
+  .b { background: rgba(56,189,248,0.2); color: var(--blue); }
+  .g { background: rgba(52,211,153,0.2); color: var(--green); }
+  .p { background: rgba(192,132,252,0.2); color: var(--purple); }
+  .r { background: rgba(248,113,113,0.2); color: var(--red); }
+  .y { background: rgba(251,191,36,0.2); color: var(--accent3); }
+
+  .card h2 { font-size: 1rem; font-weight: 700; }
+
+  .card h3 {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 1rem 0 0.4rem;
+  }
+
+  code, pre { font-family: 'JetBrains Mono', monospace; }
+
+  pre {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.9rem;
+    font-size: 0.77rem;
+    overflow-x: auto;
+    margin: 0.5rem 0;
+    line-height: 1.7;
+  }
+
+  .kw { color: #c084fc; }
+  .fn { color: #60a5fa; }
+  .str { color: #86efac; }
+  .num { color: #fca5a5; }
+  .cm { color: #374151; font-style: italic; }
+  .op { color: var(--accent2); }
+
+  ul.cl { list-style: none; margin-top: 0.5rem; }
+  ul.cl li {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.3rem 0;
+    font-size: 0.83rem;
+    border-bottom: 1px solid var(--border);
+  }
+  ul.cl li:last-child { border-bottom: none; }
+  ul.cl li::before { content: '→'; color: var(--accent); font-size: 0.7rem; margin-top: 0.35rem; flex-shrink: 0; }
+
+  .tip {
+    background: rgba(249,115,22,0.08);
+    border-left: 3px solid var(--accent);
+    padding: 0.6rem 0.9rem;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.82rem;
+    margin-top: 0.75rem;
+  }
+
+  .deep {
+    background: rgba(56,189,248,0.08);
+    border-left: 3px solid var(--blue);
+    padding: 0.6rem 0.9rem;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.82rem;
+    margin-top: 0.75rem;
+  }
+
+  .full-width { grid-column: 1 / -1; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.79rem;
+    margin-top: 0.5rem;
+  }
+
+  th {
+    background: var(--surface2);
+    padding: 0.45rem 0.7rem;
+    text-align: left;
+    color: var(--muted);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  td {
+    padding: 0.4rem 0.7rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.8rem;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  .section-title {
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: var(--accent2);
+    margin: 2.5rem auto 1rem;
+    max-width: 1200px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 600px) {
+    .two-col { grid-template-columns: 1fr; }
+    h1 { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="badge">Cheat Sheet 3 of 3</div>
+  <h1>A Level Computer Science</h1>
+  <p class="subtitle">Hills Road Sixth Form · Cambridge A Level CS · Y12 & Y13</p>
+  <p style="color:var(--muted);font-size:0.85rem;margin-top:0.75rem">The hardest and most interesting CS content — this is where it gets beautiful</p>
+</div>
+
+<p class="section-title">🧠 Theory of Computation</p>
+<div class="grid">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon o">∑</div>
+      <h2>Finite State Machines</h2>
+    </div>
+    <ul class="cl">
+      <li><strong>FSM</strong> — model of computation with states and transitions</li>
+      <li><strong>State</strong> — current condition of the machine</li>
+      <li><strong>Transition</strong> — move from one state to another on input</li>
+      <li><strong>Accept state</strong> — if machine ends here, input is valid</li>
+      <li><strong>DFA</strong> — Deterministic FSM — one transition per input per state</li>
+    </ul>
+    <div class="deep">FSMs are used in compilers, regex engines, and network protocols. This is theoretical CS getting real.</div>
+    <h3>Example — accepts strings ending in "ab"</h3>
+    <pre>State 0 →(a)→ State 1 →(b)→ State 2 [ACCEPT]
+State 0 →(b)→ State 0
+State 1 →(a)→ State 1
+State 2 →(a)→ State 1
+State 2 →(b)→ State 0</pre>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon b">λ</div>
+      <h2>Turing Machines & Computability</h2>
+    </div>
+    <ul class="cl">
+      <li><strong>Turing Machine</strong> — theoretical model of any computation. Infinite tape, read/write head, states</li>
+      <li><strong>Universal Turing Machine</strong> — can simulate any Turing machine (concept of a general computer)</li>
+      <li><strong>Halting Problem</strong> — impossible to write a program that determines if any program will halt</li>
+      <li><strong>Decidable</strong> — problem that always terminates with yes/no</li>
+      <li><strong>Undecidable</strong> — no algorithm can solve it in all cases (halting problem)</li>
+      <li><strong>Computable</strong> — problem that can be solved algorithmically</li>
+    </ul>
+    <div class="tip">The halting problem is one of the most beautiful results in all of mathematics. Turing proved some things are fundamentally unknowable by any computer.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon g">📝</div>
+      <h2>Regular Expressions</h2>
+    </div>
+    <pre><span class="cm"># Python regex</span>
+<span class="kw">import</span> <span class="fn">re</span>
+
+<span class="cm"># Check if valid email</span>
+<span class="var">pattern</span> = <span class="str">r"^[\w.-]+@[\w.-]+\.\w+$"</span>
+<span class="var">result</span> = <span class="fn">re</span>.<span class="fn">match</span>(<span class="var">pattern</span>, <span class="str">"alex@perse.co.uk"</span>)
+
+<span class="cm"># Find all numbers in string</span>
+<span class="var">nums</span> = <span class="fn">re</span>.<span class="fn">findall</span>(<span class="str">r"\d+"</span>, <span class="str">"I scored 95 out of 100"</span>)
+<span class="cm"># ['95', '100']</span></pre>
+    <h3>Regex Syntax</h3>
+    <table>
+      <tr><th>Symbol</th><th>Meaning</th></tr>
+      <tr><td>.</td><td>Any character except newline</td></tr>
+      <tr><td>*</td><td>0 or more of previous</td></tr>
+      <tr><td>+</td><td>1 or more of previous</td></tr>
+      <tr><td>?</td><td>0 or 1 of previous</td></tr>
+      <tr><td>[abc]</td><td>Any of a, b, or c</td></tr>
+      <tr><td>^</td><td>Start of string</td></tr>
+      <tr><td>$</td><td>End of string</td></tr>
+      <tr><td>\d</td><td>Any digit 0-9</td></tr>
+      <tr><td>\w</td><td>Any word character</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon p">BNF</div>
+      <h2>Backus-Naur Form & Grammars</h2>
+    </div>
+    <ul class="cl">
+      <li><strong>BNF</strong> — formal notation for describing syntax of programming languages</li>
+      <li><strong>Terminal</strong> — actual character or token (e.g., a digit)</li>
+      <li><strong>Non-terminal</strong> — rule that expands to other rules (in angle brackets)</li>
+      <li><strong>Production rule</strong> — defines how non-terminals expand</li>
+    </ul>
+    <h3>Example BNF — simple integer</h3>
+    <pre>&lt;integer&gt; ::= &lt;digit&gt; | &lt;digit&gt;&lt;integer&gt;
+&lt;digit&gt;   ::= 0|1|2|3|4|5|6|7|8|9</pre>
+    <div class="deep">This is how Python itself is defined — the Python language specification uses formal grammar rules like these.</div>
+  </div>
+
+</div>
+
+<p class="section-title">💾 Data Structures & Algorithms</p>
+<div class="grid">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon b">🌳</div>
+      <h2>Trees & Graphs</h2>
+    </div>
+    <h3>Binary Tree</h3>
+    <pre><span class="kw">class</span> <span class="fn">Node</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, <span class="var">val</span>):
+        <span class="kw">self</span>.<span class="var">val</span> = <span class="var">val</span>
+        <span class="kw">self</span>.<span class="var">left</span> = <span class="kw">None</span>
+        <span class="kw">self</span>.<span class="var">right</span> = <span class="kw">None</span>
+
+<span class="cm"># Tree traversal orders:</span>
+<span class="cm"># In-order:  left → root → right</span>
+<span class="cm"># Pre-order: root → left → right</span>
+<span class="cm"># Post-order:left → right → root</span></pre>
+    <h3>Graph Representations</h3>
+    <pre><span class="cm"># Adjacency list</span>
+<span class="var">graph</span> = {
+    <span class="str">'A'</span>: [<span class="str">'B'</span>, <span class="str">'C'</span>],
+    <span class="str">'B'</span>: [<span class="str">'A'</span>, <span class="str">'D'</span>],
+    <span class="str">'C'</span>: [<span class="str">'A'</span>],
+    <span class="str">'D'</span>: [<span class="str">'B'</span>]
+}</pre>
+    <ul class="cl">
+      <li><strong>Directed graph</strong> — edges have direction (one-way)</li>
+      <li><strong>Weighted graph</strong> — edges have costs (distances, times)</li>
+      <li><strong>Tree</strong> — connected graph with no cycles</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon g">🗺</div>
+      <h2>Graph Algorithms</h2>
+    </div>
+    <h3>Depth First Search (DFS)</h3>
+    <pre><span class="kw">def</span> <span class="fn">dfs</span>(<span class="var">graph</span>, <span class="var">start</span>, <span class="var">visited</span>=<span class="kw">None</span>):
+    <span class="kw">if</span> <span class="var">visited</span> <span class="kw">is</span> <span class="kw">None</span>: <span class="var">visited</span> = <span class="fn">set</span>()
+    <span class="var">visited</span>.<span class="fn">add</span>(<span class="var">start</span>)
+    <span class="fn">print</span>(<span class="var">start</span>)
+    <span class="kw">for</span> <span class="var">neighbour</span> <span class="kw">in</span> <span class="var">graph</span>[<span class="var">start</span>]:
+        <span class="kw">if</span> <span class="var">neighbour</span> <span class="kw">not</span> <span class="kw">in</span> <span class="var">visited</span>:
+            <span class="fn">dfs</span>(<span class="var">graph</span>, <span class="var">neighbour</span>, <span class="var">visited</span>)</pre>
+    <h3>Dijkstra's Shortest Path</h3>
+    <ul class="cl">
+      <li>Finds shortest path in weighted graph</li>
+      <li>Used in Google Maps, network routing</li>
+      <li>Key idea: always expand cheapest unvisited node</li>
+      <li>Time complexity: O(V² ) or O(E log V) with priority queue</li>
+    </ul>
+    <div class="tip">Dijkstra's is a favourite exam question — know how to trace through it by hand step by step.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon y">⚡</div>
+      <h2>Complexity & Big O</h2>
+    </div>
+    <table>
+      <tr><th>Notation</th><th>Name</th><th>Example</th></tr>
+      <tr><td>O(1)</td><td>Constant</td><td>Array index access</td></tr>
+      <tr><td>O(log n)</td><td>Logarithmic</td><td>Binary search</td></tr>
+      <tr><td>O(n)</td><td>Linear</td><td>Linear search</td></tr>
+      <tr><td>O(n log n)</td><td>Linearithmic</td><td>Merge sort</td></tr>
+      <tr><td>O(n²)</td><td>Quadratic</td><td>Bubble sort</td></tr>
+      <tr><td>O(2ⁿ)</td><td>Exponential</td><td>Recursive Fibonacci</td></tr>
+    </table>
+    <div class="deep">O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n²) &lt; O(2ⁿ) — left is faster!</div>
+    <h3>Space vs Time Complexity</h3>
+    <ul class="cl">
+      <li><strong>Time complexity</strong> — how long does it take as n grows?</li>
+      <li><strong>Space complexity</strong> — how much memory does it use?</li>
+      <li>Often a trade-off — faster can mean more memory</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon p">🔑</div>
+      <h2>Hashing & Hash Tables</h2>
+    </div>
+    <pre><span class="cm"># Python dict IS a hash table</span>
+<span class="var">d</span> = {<span class="str">"alice"</span>: <span class="num">95</span>, <span class="str">"bob"</span>: <span class="num">87</span>}
+<span class="var">d</span>[<span class="str">"alice"</span>]  <span class="cm"># O(1) lookup!</span>
+
+<span class="cm"># Hash function concept</span>
+<span class="kw">def</span> <span class="fn">simple_hash</span>(<span class="var">key</span>, <span class="var">size</span>):
+    <span class="kw">return</span> <span class="fn">sum</span>(<span class="fn">ord</span>(<span class="var">c</span>) <span class="kw">for</span> <span class="var">c</span> <span class="kw">in</span> <span class="var">key</span>) % <span class="var">size</span></pre>
+    <ul class="cl">
+      <li><strong>Hash function</strong> — converts key to array index</li>
+      <li><strong>Collision</strong> — two keys map to same index</li>
+      <li><strong>Chaining</strong> — store collisions in linked list at index</li>
+      <li><strong>Load factor</strong> — ratio of items to table size</li>
+    </ul>
+    <div class="tip">Hash tables give O(1) average lookup — this is why Python dicts are so fast.</div>
+  </div>
+
+</div>
+
+<p class="section-title">⚙️ Computer Architecture</p>
+<div class="grid">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon o">CPU</div>
+      <h2>Advanced CPU Architecture</h2>
+    </div>
+    <h3>Performance Factors</h3>
+    <ul class="cl">
+      <li><strong>Clock speed</strong> — GHz, cycles per second</li>
+      <li><strong>Cores</strong> — multiple processors on one chip (parallel execution)</li>
+      <li><strong>Cache levels</strong> — L1 (fastest/smallest) → L2 → L3 (slowest/largest)</li>
+      <li><strong>Pipelining</strong> — overlap fetch/decode/execute of multiple instructions</li>
+    </ul>
+    <h3>RISC vs CISC</h3>
+    <table>
+      <tr><th></th><th>RISC</th><th>CISC</th></tr>
+      <tr><td>Instructions</td><td>Simple, few</td><td>Complex, many</td></tr>
+      <tr><td>Speed</td><td>Fast per instruction</td><td>Slower per instruction</td></tr>
+      <tr><td>Example</td><td>ARM (your phone)</td><td>x86 (your laptop)</td></tr>
+      <tr><td>Power</td><td>Low power</td><td>Higher power</td></tr>
+    </table>
+    <div class="deep">ARM chips (RISC) are in every iPhone and most Android phones. Apple Silicon (M1/M2/M3) is ARM — this is why MacBooks get such good battery life.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon b">🔧</div>
+      <h2>Assembly Language</h2>
+    </div>
+    <pre><span class="cm">; Load value 5 into register R0</span>
+<span class="fn">MOV</span> <span class="var">R0</span>, <span class="op">#5</span>
+<span class="cm">; Load value 3 into register R1</span>
+<span class="fn">MOV</span> <span class="var">R1</span>, <span class="op">#3</span>
+<span class="cm">; Add R0 and R1, store in R2</span>
+<span class="fn">ADD</span> <span class="var">R2</span>, <span class="var">R0</span>, <span class="var">R1</span>
+<span class="cm">; R2 now = 8</span>
+
+<span class="cm">; Compare and branch</span>
+<span class="fn">CMP</span> <span class="var">R0</span>, <span class="op">#0</span>
+<span class="fn">BEQ</span> <span class="var">end</span>    <span class="cm">; branch if equal</span>
+<span class="fn">SUB</span> <span class="var">R0</span>, <span class="var">R0</span>, <span class="op">#1</span></pre>
+    <ul class="cl">
+      <li><strong>MOV</strong> — move/load value</li>
+      <li><strong>ADD/SUB/MUL</strong> — arithmetic</li>
+      <li><strong>CMP</strong> — compare two values</li>
+      <li><strong>B/BEQ/BNE</strong> — branch (like goto)</li>
+      <li><strong>LDR/STR</strong> — load/store from memory</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon g">🔄</div>
+      <h2>Translation & Languages</h2>
+    </div>
+    <ul class="cl">
+      <li><strong>Machine code</strong> — binary instructions CPU directly executes</li>
+      <li><strong>Assembly</strong> — human-readable machine code (one-to-one)</li>
+      <li><strong>High level language</strong> — Python, C++, Java (one-to-many)</li>
+      <li><strong>Compiler</strong> — translates entire program to machine code before running</li>
+      <li><strong>Interpreter</strong> — translates and runs line by line (Python works this way)</li>
+      <li><strong>Assembler</strong> — translates assembly to machine code</li>
+      <li><strong>JIT compiler</strong> — compiles at runtime for speed (Java, modern JS)</li>
+    </ul>
+    <h3>Compilation Stages</h3>
+    <ul class="cl">
+      <li><strong>Lexical analysis</strong> — tokenise source code</li>
+      <li><strong>Syntax analysis</strong> — build parse tree, check grammar</li>
+      <li><strong>Semantic analysis</strong> — check meaning (type checking)</li>
+      <li><strong>Code generation</strong> — produce machine code</li>
+      <li><strong>Optimisation</strong> — make code faster/smaller</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon r">🔒</div>
+      <h2>Cryptography</h2>
+    </div>
+    <h3>Symmetric Encryption</h3>
+    <pre><span class="cm"># Caesar cipher (simplest)</span>
+<span class="kw">def</span> <span class="fn">caesar</span>(<span class="var">text</span>, <span class="var">shift</span>):
+    <span class="var">result</span> = <span class="str">""</span>
+    <span class="kw">for</span> <span class="var">char</span> <span class="kw">in</span> <span class="var">text</span>:
+        <span class="kw">if</span> <span class="var">char</span>.<span class="fn">isalpha</span>():
+            <span class="var">shifted</span> = (<span class="fn">ord</span>(<span class="var">char</span>.<span class="fn">lower</span>()) - <span class="num">97</span> + <span class="var">shift</span>) % <span class="num">26</span>
+            <span class="var">result</span> += <span class="fn">chr</span>(<span class="var">shifted</span> + <span class="num">97</span>)
+        <span class="kw">else</span>:
+            <span class="var">result</span> += <span class="var">char</span>
+    <span class="kw">return</span> <span class="var">result</span></pre>
+    <ul class="cl">
+      <li><strong>Symmetric</strong> — same key to encrypt and decrypt (AES)</li>
+      <li><strong>Asymmetric</strong> — public key encrypts, private key decrypts (RSA)</li>
+      <li><strong>Public key</strong> — share with everyone, used to encrypt</li>
+      <li><strong>Private key</strong> — keep secret, used to decrypt</li>
+      <li><strong>Digital signature</strong> — prove identity and integrity</li>
+      <li><strong>Hashing</strong> — one-way, can't reverse (SHA-256, bcrypt)</li>
+    </ul>
+    <div class="tip">The Caesar cipher above is your next Python project! It's your first proper cryptography program.</div>
+  </div>
+
+</div>
+
+<p class="section-title">🌐 Networks & Web</p>
+<div class="grid">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon b">📦</div>
+      <h2>TCP/IP Stack</h2>
+    </div>
+    <table>
+      <tr><th>Layer</th><th>Name</th><th>Protocol</th><th>Does</th></tr>
+      <tr><td>4</td><td>Application</td><td>HTTP, FTP, SSH</td><td>User-facing services</td></tr>
+      <tr><td>3</td><td>Transport</td><td>TCP, UDP</td><td>End-to-end delivery</td></tr>
+      <tr><td>2</td><td>Internet</td><td>IP</td><td>Addressing & routing</td></tr>
+      <tr><td>1</td><td>Link</td><td>Ethernet, WiFi</td><td>Physical transmission</td></tr>
+    </table>
+    <ul class="cl" style="margin-top:0.75rem">
+      <li><strong>TCP</strong> — reliable, ordered, error-checked. Slower but safe</li>
+      <li><strong>UDP</strong> — fast, no guarantee. Used for video calls, gaming</li>
+      <li><strong>Port</strong> — identifies specific service (80=HTTP, 443=HTTPS, 22=SSH)</li>
+      <li><strong>Socket</strong> — IP address + port number = unique connection endpoint</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon g">🖥</div>
+      <h2>Client-Server & Databases</h2>
+    </div>
+    <h3>SQL Basics</h3>
+    <pre><span class="cm">-- Select data</span>
+<span class="kw">SELECT</span> <span class="var">name</span>, <span class="var">score</span>
+<span class="kw">FROM</span> <span class="var">students</span>
+<span class="kw">WHERE</span> <span class="var">score</span> > <span class="num">90</span>
+<span class="kw">ORDER BY</span> <span class="var">score</span> <span class="kw">DESC</span>;
+
+<span class="cm">-- Join tables</span>
+<span class="kw">SELECT</span> <span class="var">s</span>.<span class="var">name</span>, <span class="var">c</span>.<span class="var">title</span>
+<span class="kw">FROM</span> <span class="var">students</span> <span class="var">s</span>
+<span class="kw">JOIN</span> <span class="var">courses</span> <span class="var">c</span>
+<span class="kw">ON</span> <span class="var">s</span>.<span class="var">course_id</span> = <span class="var">c</span>.<span class="var">id</span>;</pre>
+    <ul class="cl">
+      <li><strong>Primary key</strong> — unique identifier for each row</li>
+      <li><strong>Foreign key</strong> — references primary key in another table</li>
+      <li><strong>Normalisation</strong> — reduce data redundancy (1NF, 2NF, 3NF)</li>
+      <li><strong>CRUD</strong> — Create, Read, Update, Delete (basic database operations)</li>
+    </ul>
+  </div>
+
+</div>
+
+<p class="section-title">🎯 A Level Project & Exam</p>
+<div class="grid">
+
+  <div class="card full-width">
+    <div class="card-header">
+      <div class="card-icon o">📋</div>
+      <h2>Cambridge A Level CS — Assessment Structure</h2>
+    </div>
+    <div class="two-col">
+      <div>
+        <h3>Paper 1 (40%) — Written Exam</h3>
+        <ul class="cl">
+          <li>Theory of computation (FSMs, Turing machines)</li>
+          <li>Data structures and algorithms</li>
+          <li>Computer architecture and assembly</li>
+          <li>Cryptography and security</li>
+          <li>Networks and protocols</li>
+          <li>Databases and SQL</li>
+          <li>Big O complexity analysis</li>
+        </ul>
+        <h3 style="margin-top:1rem">Paper 2 (40%) — Written Exam</h3>
+        <ul class="cl">
+          <li>Programming questions (any language)</li>
+          <li>Write code solutions to problems</li>
+          <li>Trace algorithms</li>
+          <li>Design and analyse algorithms</li>
+          <li>Pseudocode</li>
+        </ul>
+      </div>
+      <div>
+        <h3>NEA / Project (20%) — Non-Examined Assessment</h3>
+        <ul class="cl">
+          <li>Submitted February of Y13</li>
+          <li>A substantial real software project</li>
+          <li>You choose the problem to solve</li>
+          <li>Analysis → Design → Implementation → Testing → Evaluation</li>
+          <li>Marked on documentation as much as code</li>
+          <li>Roughly 20 hours of work minimum</li>
+        </ul>
+        <div class="tip" style="margin-top:1rem">The project is your chance to build something genuinely impressive. A cybersecurity tool, a game AI, a bioinformatics analyser — pick something you care about. This is the portfolio piece that goes on your UCAS application.</div>
+        <div class="deep" style="margin-top:0.75rem">Hills Road higher admissions score for CS: 71 (or 69 for CAP students). That's roughly 7+ in GCSE CS and strong Maths grade.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card full-width">
+    <div class="card-header">
+      <div class="card-icon g">🗺</div>
+      <h2>Your Full Roadmap — Y8 to Cambridge</h2>
+    </div>
+    <div class="two-col">
+      <div>
+        <h3>Now → End of Y8</h3>
+        <ul class="cl">
+          <li>Python fundamentals — this cheat sheet level 1</li>
+          <li>Finish Quick Quizzer and upload to GitHub</li>
+          <li>Build Caesar cipher (next project)</li>
+          <li>TryHackMe — start ethical hacking basics</li>
+          <li>Perse Coding Competition</li>
+          <li>UKMT Junior Maths Challenge</li>
+        </ul>
+        <h3 style="margin-top:0.75rem">Y9</h3>
+        <ul class="cl">
+          <li>Pass DualCS Python entry test</li>
+          <li>PCTC competition</li>
+          <li>First attempt at BIO</li>
+          <li>Portfolio: 3+ Python projects on GitHub</li>
+          <li>Start OOP and data structures</li>
+        </ul>
+        <h3 style="margin-top:0.75rem">Y10-Y11 (GCSEs)</h3>
+        <ul class="cl">
+          <li>DualCS track — GCSE + AS content</li>
+          <li>Maths Grade 9 is the priority</li>
+          <li>Serious BIO attempt</li>
+          <li>PCTC senior levels</li>
+          <li>Portfolio growing steadily</li>
+          <li>Apply to Hills Road (Y11)</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Y12 at Hills Road</h3>
+        <ul class="cl">
+          <li>Maths, Further Maths, Physics</li>
+          <li>CS as "long thin" — just completing content</li>
+          <li>EPQ — technical research project</li>
+          <li>Start NEA project planning</li>
+          <li>TMUA registration (October)</li>
+          <li>Bebras, Advent of Code</li>
+        </ul>
+        <h3 style="margin-top:0.75rem">Y13 — Final Push</h3>
+        <ul class="cl">
+          <li>A Level exams — Maths, FM, Physics, CS</li>
+          <li>NEA project submitted February</li>
+          <li>UCAS application — Cambridge CS</li>
+          <li>Cambridge interview December</li>
+          <li>TMUA score submitted</li>
+          <li>Portfolio finished and polished</li>
+        </ul>
+        <div class="tip" style="margin-top:1rem">🎯 Target: Cambridge CS offer typically requires A*A*A. With Maths, Further Maths, Physics that's the combination they want to see.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p style="text-align:center; color: var(--muted); font-size:0.8rem; margin-top:2rem; padding:1rem">
+  Cheat Sheet 3 of 3 — A Level CS | Hills Road → Cambridge · Built Y8 2026
+</p>
+
+</body>
+</html>

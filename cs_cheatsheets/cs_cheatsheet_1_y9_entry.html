@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS Cheat Sheet 1 — Y9 DualCS Entry Test</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@300;500;700&display=swap');
+
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --surface2: #1a2235;
+    --accent: #00f5a0;
+    --accent2: #00d4ff;
+    --accent3: #ff6b6b;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --border: #1e293b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    line-height: 1.6;
+    padding: 2rem 1rem;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, #0a0e1a, #111827);
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(0,245,160,0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #0a0e1a;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 1rem;
+  }
+
+  .progress-bar {
+    background: var(--surface2);
+    border-radius: 999px;
+    height: 8px;
+    margin: 1.5rem auto 0;
+    max-width: 400px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    height: 100%;
+    width: 65%;
+    border-radius: 999px;
+  }
+
+  .progress-label {
+    color: var(--muted);
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: border-color 0.2s;
+  }
+
+  .card:hover { border-color: var(--accent); }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .card-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .green { background: rgba(0,245,160,0.15); color: var(--accent); }
+  .blue { background: rgba(0,212,255,0.15); color: var(--accent2); }
+  .red { background: rgba(255,107,107,0.15); color: var(--accent3); }
+  .purple { background: rgba(168,85,247,0.15); color: #a855f7; }
+  .orange { background: rgba(251,146,60,0.15); color: #fb923c; }
+  .yellow { background: rgba(250,204,21,0.15); color: #facc15; }
+
+  .card h2 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .card h3 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 1rem 0 0.5rem;
+  }
+
+  .card h3:first-of-type { margin-top: 0; }
+
+  code, pre {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  pre {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    font-size: 0.8rem;
+    overflow-x: auto;
+    margin: 0.5rem 0;
+    line-height: 1.7;
+  }
+
+  .kw { color: #c792ea; }
+  .fn { color: #82aaff; }
+  .str { color: #c3e88d; }
+  .num { color: #f78c6c; }
+  .cm { color: #546e7a; font-style: italic; }
+  .var { color: #eeffff; }
+
+  .pill-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.78rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent2);
+  }
+
+  .check-list {
+    list-style: none;
+    margin-top: 0.5rem;
+  }
+
+  .check-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.3rem 0;
+    font-size: 0.88rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .check-list li:last-child { border-bottom: none; }
+
+  .check-list li::before {
+    content: '▸';
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .tip {
+    background: rgba(0,245,160,0.08);
+    border-left: 3px solid var(--accent);
+    padding: 0.75rem 1rem;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.85rem;
+    margin-top: 0.75rem;
+  }
+
+  .warn {
+    background: rgba(255,107,107,0.08);
+    border-left: 3px solid var(--accent3);
+    padding: 0.75rem 1rem;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.85rem;
+    margin-top: 0.75rem;
+  }
+
+  .full-width {
+    grid-column: 1 / -1;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  @media (max-width: 600px) {
+    .two-col { grid-template-columns: 1fr; }
+    h1 { font-size: 1.5rem; }
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    margin-top: 0.5rem;
+  }
+
+  th {
+    background: var(--surface2);
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    color: var(--muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  td {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  .section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 2.5rem 0 1rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="badge">Cheat Sheet 1 of 3</div>
+  <h1>Y9 DualCS Entry Test</h1>
+  <p class="subtitle">Everything you need to pass the advanced Python coding test at the Perse</p>
+  <div class="progress-bar"><div class="progress-fill"></div></div>
+  <p class="progress-label">You already know ~65% of this from today alone</p>
+</div>
+
+<p class="section-title">🐍 Python Fundamentals</p>
+
+<div class="grid">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon green">{ }</div>
+      <h2>Variables & Data Types</h2>
+    </div>
+    <pre><span class="cm"># Strings</span>
+<span class="var">name</span> = <span class="str">"Kairan"</span>
+<span class="cm"># Integers</span>
+<span class="var">age</span> = <span class="num">13</span>
+<span class="cm"># Floats</span>
+<span class="var">score</span> = <span class="num">9.5</span>
+<span class="cm"># Booleans</span>
+<span class="var">passed</span> = <span class="kw">True</span>
+<span class="cm"># Check type</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="var">name</span>))  <span class="cm"># &lt;class 'str'&gt;</span></pre>
+    <div class="tip">You already know this. Just remember type() exists.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon green">if</div>
+      <h2>If / Elif / Else</h2>
+    </div>
+    <pre><span class="var">score</span> = <span class="num">85</span>
+
+<span class="kw">if</span> <span class="var">score</span> >= <span class="num">90</span>:
+    <span class="fn">print</span>(<span class="str">"A*"</span>)
+<span class="kw">elif</span> <span class="var">score</span> >= <span class="num">80</span>:
+    <span class="fn">print</span>(<span class="str">"A"</span>)
+<span class="kw">elif</span> <span class="var">score</span> >= <span class="num">70</span>:
+    <span class="fn">print</span>(<span class="str">"B"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"Below B"</span>)</pre>
+    <div class="tip">You know this well. Practice nesting conditions inside loops.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon blue">↻</div>
+      <h2>For Loops</h2>
+    </div>
+    <pre><span class="cm"># Loop through list</span>
+<span class="kw">for</span> <span class="var">item</span> <span class="kw">in</span> [<span class="str">"a"</span>, <span class="str">"b"</span>, <span class="str">"c"</span>]:
+    <span class="fn">print</span>(<span class="var">item</span>)
+
+<span class="cm"># Loop with index</span>
+<span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">5</span>):
+    <span class="fn">print</span>(<span class="var">i</span>)  <span class="cm"># 0,1,2,3,4</span>
+
+<span class="cm"># range(start, stop, step)</span>
+<span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">0</span>, <span class="num">10</span>, <span class="num">2</span>):
+    <span class="fn">print</span>(<span class="var">i</span>)  <span class="cm"># 0,2,4,6,8</span>
+
+<span class="cm"># enumerate gives index + value</span>
+<span class="kw">for</span> <span class="var">i</span>, <span class="var">val</span> <span class="kw">in</span> <span class="fn">enumerate</span>([<span class="str">"a"</span>,<span class="str">"b"</span>,<span class="str">"c"</span>]):
+    <span class="fn">print</span>(<span class="var">i</span>, <span class="var">val</span>)</pre>
+    <div class="tip">enumerate() is cleaner than range(len()) — learn it!</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon blue">⟳</div>
+      <h2>While Loops ⚠️ NEW</h2>
+    </div>
+    <pre><span class="cm"># Basic while loop</span>
+<span class="var">count</span> = <span class="num">0</span>
+<span class="kw">while</span> <span class="var">count</span> < <span class="num">5</span>:
+    <span class="fn">print</span>(<span class="var">count</span>)
+    <span class="var">count</span> += <span class="num">1</span>
+
+<span class="cm"># Menu loop — very useful!</span>
+<span class="kw">while</span> <span class="kw">True</span>:
+    <span class="var">choice</span> = <span class="fn">input</span>(<span class="str">"Enter 'q' to quit: "</span>)
+    <span class="kw">if</span> <span class="var">choice</span> == <span class="str">"q"</span>:
+        <span class="kw">break</span>
+    <span class="fn">print</span>(<span class="str">"You said: "</span> + <span class="var">choice</span>)</pre>
+    <div class="warn">Always make sure your while loop can exit — infinite loops crash your program!</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon green">[ ]</div>
+      <h2>Lists</h2>
+    </div>
+    <pre><span class="var">fruits</span> = [<span class="str">"apple"</span>, <span class="str">"banana"</span>, <span class="str">"cherry"</span>]
+
+<span class="cm"># Access by index (starts at 0)</span>
+<span class="fn">print</span>(<span class="var">fruits</span>[<span class="num">0</span>])   <span class="cm"># apple</span>
+<span class="fn">print</span>(<span class="var">fruits</span>[-<span class="num">1</span>])  <span class="cm"># cherry (last)</span>
+
+<span class="cm"># Modify</span>
+<span class="var">fruits</span>.<span class="fn">append</span>(<span class="str">"date"</span>)    <span class="cm"># add to end</span>
+<span class="var">fruits</span>.<span class="fn">remove</span>(<span class="str">"banana"</span>) <span class="cm"># remove item</span>
+<span class="fn">len</span>(<span class="var">fruits</span>)              <span class="cm"># length = 3</span>
+
+<span class="cm"># Slicing</span>
+<span class="var">fruits</span>[<span class="num">1</span>:<span class="num">3</span>]  <span class="cm"># ["banana","cherry"]</span>
+
+<span class="cm"># Check membership</span>
+<span class="str">"apple"</span> <span class="kw">in</span> <span class="var">fruits</span>  <span class="cm"># True</span></pre>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon purple">{ : }</div>
+      <h2>Dictionaries ⚠️ NEW</h2>
+    </div>
+    <pre><span class="cm"># Key-value pairs</span>
+<span class="var">student</span> = {
+    <span class="str">"name"</span>: <span class="str">"Alex"</span>,
+    <span class="str">"year"</span>: <span class="num">9</span>,
+    <span class="str">"score"</span>: <span class="num">95</span>
+}
+
+<span class="cm"># Access values</span>
+<span class="fn">print</span>(<span class="var">student</span>[<span class="str">"name"</span>])  <span class="cm"># Alex</span>
+
+<span class="cm"># Add/update</span>
+<span class="var">student</span>[<span class="str">"grade"</span>] = <span class="str">"A*"</span>
+
+<span class="cm"># Loop through</span>
+<span class="kw">for</span> <span class="var">key</span>, <span class="var">value</span> <span class="kw">in</span> <span class="var">student</span>.<span class="fn">items</span>():
+    <span class="fn">print</span>(<span class="var">key</span>, <span class="str">":"</span>, <span class="var">value</span>)
+
+<span class="cm"># Check key exists</span>
+<span class="str">"name"</span> <span class="kw">in</span> <span class="var">student</span>  <span class="cm"># True</span></pre>
+    <div class="tip">Think of dictionaries as a real dictionary — word (key) maps to definition (value).</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon orange">f( )</div>
+      <h2>Functions</h2>
+    </div>
+    <pre><span class="cm"># Define a function</span>
+<span class="kw">def</span> <span class="fn">greet</span>(<span class="var">name</span>):
+    <span class="fn">print</span>(<span class="str">f"Hello, </span>{<span class="var">name</span>}<span class="str">!"</span>)
+
+<span class="fn">greet</span>(<span class="str">"Alex"</span>)  <span class="cm"># Hello, Alex!</span>
+
+<span class="cm"># Function that returns a value</span>
+<span class="kw">def</span> <span class="fn">add</span>(<span class="var">a</span>, <span class="var">b</span>):
+    <span class="kw">return</span> <span class="var">a</span> + <span class="var">b</span>
+
+<span class="var">result</span> = <span class="fn">add</span>(<span class="num">3</span>, <span class="num">4</span>)  <span class="cm"># result = 7</span>
+
+<span class="cm"># Default parameters</span>
+<span class="kw">def</span> <span class="fn">power</span>(<span class="var">base</span>, <span class="var">exp</span>=<span class="num">2</span>):
+    <span class="kw">return</span> <span class="var">base</span> ** <span class="var">exp</span>
+
+<span class="fn">power</span>(<span class="num">3</span>)    <span class="cm"># 9 (uses default exp=2)</span>
+<span class="fn">power</span>(<span class="num">3</span>, <span class="num">3</span>) <span class="cm"># 27</span></pre>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon red">⚠</div>
+      <h2>Try / Except ⚠️ NEW</h2>
+    </div>
+    <pre><span class="cm"># Handle errors gracefully</span>
+<span class="kw">try</span>:
+    <span class="var">num</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"Enter a number: "</span>))
+    <span class="fn">print</span>(<span class="num">10</span> / <span class="var">num</span>)
+<span class="kw">except</span> <span class="fn">ValueError</span>:
+    <span class="fn">print</span>(<span class="str">"That's not a number!"</span>)
+<span class="kw">except</span> <span class="fn">ZeroDivisionError</span>:
+    <span class="fn">print</span>(<span class="str">"Can't divide by zero!"</span>)
+
+<span class="cm"># Useful for menu input validation</span>
+<span class="kw">while</span> <span class="kw">True</span>:
+    <span class="kw">try</span>:
+        <span class="var">choice</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"Pick 1-3: "</span>))
+        <span class="kw">if</span> <span class="num">1</span> <= <span class="var">choice</span> <= <span class="num">3</span>:
+            <span class="kw">break</span>
+    <span class="kw">except</span> <span class="fn">ValueError</span>:
+        <span class="fn">print</span>(<span class="str">"Numbers only!"</span>)</pre>
+    <div class="tip">This fixes the crash bug in your Quick Quizzer menu!</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon blue">Aa</div>
+      <h2>String Methods</h2>
+    </div>
+    <pre><span class="var">s</span> = <span class="str">"  Hello World  "</span>
+
+<span class="var">s</span>.<span class="fn">lower</span>()      <span class="cm"># "  hello world  "</span>
+<span class="var">s</span>.<span class="fn">upper</span>()      <span class="cm"># "  HELLO WORLD  "</span>
+<span class="var">s</span>.<span class="fn">strip</span>()      <span class="cm"># "Hello World"</span>
+<span class="var">s</span>.<span class="fn">replace</span>(<span class="str">"World"</span>, <span class="str">"Perse"</span>)
+<span class="var">s</span>.<span class="fn">split</span>()      <span class="cm"># ["Hello", "World"]</span>
+<span class="var">s</span>.<span class="fn">startswith</span>(<span class="str">"Hello"</span>)  <span class="cm"># False (has spaces)</span>
+<span class="fn">len</span>(<span class="var">s</span>)         <span class="cm"># 15</span>
+
+<span class="cm"># f-strings (you know these!)</span>
+<span class="var">name</span> = <span class="str">"Alex"</span>
+<span class="fn">print</span>(<span class="str">f"Hello </span>{<span class="var">name</span>}<span class="str">, you scored </span>{<span class="num">95</span>}<span class="str">%"</span>)
+
+<span class="cm"># String to list of chars</span>
+<span class="fn">list</span>(<span class="str">"hello"</span>)  <span class="cm"># ['h','e','l','l','o']</span></pre>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon purple">📁</div>
+      <h2>File Handling ⚠️ NEW</h2>
+    </div>
+    <pre><span class="cm"># Write to a file</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"scores.txt"</span>, <span class="str">"w"</span>) <span class="kw">as</span> <span class="var">f</span>:
+    <span class="var">f</span>.<span class="fn">write</span>(<span class="str">"Alex: 95\n"</span>)
+    <span class="var">f</span>.<span class="fn">write</span>(<span class="str">"Sam: 87\n"</span>)
+
+<span class="cm"># Read from a file</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"scores.txt"</span>, <span class="str">"r"</span>) <span class="kw">as</span> <span class="var">f</span>:
+    <span class="var">content</span> = <span class="var">f</span>.<span class="fn">read</span>()
+    <span class="fn">print</span>(<span class="var">content</span>)
+
+<span class="cm"># Read line by line</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"scores.txt"</span>, <span class="str">"r"</span>) <span class="kw">as</span> <span class="var">f</span>:
+    <span class="kw">for</span> <span class="var">line</span> <span class="kw">in</span> <span class="var">f</span>:
+        <span class="fn">print</span>(<span class="var">line</span>.<span class="fn">strip</span>())</pre>
+    <div class="tip">Use "a" instead of "w" to append to a file without overwriting.</div>
+  </div>
+
+</div>
+
+<p class="section-title">🔢 Computer Science Theory</p>
+
+<div class="grid">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon yellow">01</div>
+      <h2>Binary & Number Systems</h2>
+    </div>
+    <h3>Denary → Binary</h3>
+    <table>
+      <tr><th>Denary</th><th>Binary (8-bit)</th><th>Hex</th></tr>
+      <tr><td>0</td><td>00000000</td><td>0</td></tr>
+      <tr><td>1</td><td>00000001</td><td>1</td></tr>
+      <tr><td>10</td><td>00001010</td><td>A</td></tr>
+      <tr><td>15</td><td>00001111</td><td>F</td></tr>
+      <tr><td>255</td><td>11111111</td><td>FF</td></tr>
+    </table>
+    <h3>Binary place values</h3>
+    <pre>128  64  32  16   8   4   2   1
+  1   0   1   0   1   1   0   1  = 173</pre>
+    <div class="tip">To convert: divide by 2 repeatedly, write remainders bottom to top.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon blue">💻</div>
+      <h2>How Computers Work</h2>
+    </div>
+    <ul class="check-list">
+      <li><strong>CPU</strong> — Central Processing Unit. The brain. Fetches, decodes, executes instructions</li>
+      <li><strong>RAM</strong> — Random Access Memory. Temporary storage while running. Fast but loses data when off</li>
+      <li><strong>ROM</strong> — Read Only Memory. Permanent, stores boot instructions. Doesn't change</li>
+      <li><strong>Storage (HDD/SSD)</strong> — Permanent storage for files. Slower than RAM</li>
+      <li><strong>ALU</strong> — Arithmetic Logic Unit. Part of CPU that does maths and logic</li>
+      <li><strong>Control Unit</strong> — Part of CPU that manages instruction flow</li>
+      <li><strong>Cache</strong> — Tiny ultra-fast memory inside CPU for frequently used data</li>
+      <li><strong>Clock Speed</strong> — How many instructions per second (GHz). Higher = faster</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon green">⚡</div>
+      <h2>Fetch-Decode-Execute Cycle</h2>
+    </div>
+    <ul class="check-list">
+      <li><strong>Fetch</strong> — CPU gets next instruction from RAM using the Program Counter (PC)</li>
+      <li><strong>Decode</strong> — Control Unit works out what the instruction means</li>
+      <li><strong>Execute</strong> — ALU carries out the instruction</li>
+      <li><strong>Repeat</strong> — billions of times per second</li>
+    </ul>
+    <div class="tip">This cycle is the foundation of how every program you've ever written actually runs.</div>
+    <h3>Key Registers</h3>
+    <ul class="check-list">
+      <li><strong>PC</strong> — Program Counter: address of next instruction</li>
+      <li><strong>MAR</strong> — Memory Address Register: address being accessed</li>
+      <li><strong>MDR</strong> — Memory Data Register: data being transferred</li>
+      <li><strong>ACC</strong> — Accumulator: stores result of ALU operation</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon orange">🌐</div>
+      <h2>Networks Basics</h2>
+    </div>
+    <ul class="check-list">
+      <li><strong>LAN</strong> — Local Area Network. Small area (school, home)</li>
+      <li><strong>WAN</strong> — Wide Area Network. Large area (internet is the biggest WAN)</li>
+      <li><strong>IP Address</strong> — Unique address for each device on a network</li>
+      <li><strong>MAC Address</strong> — Hardware address built into network card. Never changes</li>
+      <li><strong>Router</strong> — Directs data between networks</li>
+      <li><strong>Switch</strong> — Connects devices within a LAN</li>
+      <li><strong>DNS</strong> — Domain Name System. Converts google.com to an IP address</li>
+      <li><strong>HTTP/HTTPS</strong> — Protocol for web pages. S = encrypted</li>
+      <li><strong>Packet</strong> — Small chunk of data. All data travels in packets</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon red">🔒</div>
+      <h2>Cybersecurity Basics</h2>
+    </div>
+    <ul class="check-list">
+      <li><strong>Malware</strong> — Malicious software. Includes viruses, worms, ransomware, spyware</li>
+      <li><strong>Phishing</strong> — Fake emails/sites to steal passwords or data</li>
+      <li><strong>Brute Force</strong> — Trying every possible password combination</li>
+      <li><strong>SQL Injection</strong> — Inserting malicious code into database queries</li>
+      <li><strong>Social Engineering</strong> — Manipulating humans rather than hacking systems</li>
+      <li><strong>Encryption</strong> — Scrambling data so only authorised users can read it</li>
+      <li><strong>Firewall</strong> — Monitors and filters network traffic</li>
+      <li><strong>Two-Factor Auth</strong> — Password + second verification (code, fingerprint)</li>
+    </ul>
+    <div class="tip">This is directly relevant to your ethical hacking interest — go explore TryHackMe!</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon purple">📊</div>
+      <h2>Algorithms</h2>
+    </div>
+    <h3>Linear Search</h3>
+    <pre><span class="kw">def</span> <span class="fn">linear_search</span>(<span class="var">lst</span>, <span class="var">target</span>):
+    <span class="kw">for</span> <span class="var">i</span>, <span class="var">val</span> <span class="kw">in</span> <span class="fn">enumerate</span>(<span class="var">lst</span>):
+        <span class="kw">if</span> <span class="var">val</span> == <span class="var">target</span>:
+            <span class="kw">return</span> <span class="var">i</span>
+    <span class="kw">return</span> -<span class="num">1</span>  <span class="cm"># not found</span></pre>
+    <h3>Bubble Sort</h3>
+    <pre><span class="kw">def</span> <span class="fn">bubble_sort</span>(<span class="var">lst</span>):
+    <span class="var">n</span> = <span class="fn">len</span>(<span class="var">lst</span>)
+    <span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="var">n</span>):
+        <span class="kw">for</span> <span class="var">j</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">0</span>, <span class="var">n</span>-<span class="var">i</span>-<span class="num">1</span>):
+            <span class="kw">if</span> <span class="var">lst</span>[<span class="var">j</span>] > <span class="var">lst</span>[<span class="var">j</span>+<span class="num">1</span>]:
+                <span class="var">lst</span>[<span class="var">j</span>], <span class="var">lst</span>[<span class="var">j</span>+<span class="num">1</span>] = <span class="var">lst</span>[<span class="var">j</span>+<span class="num">1</span>], <span class="var">lst</span>[<span class="var">j</span>]
+    <span class="kw">return</span> <span class="var">lst</span></pre>
+    <div class="tip">Know how to trace through these by hand — exam questions often ask you to show steps.</div>
+  </div>
+
+  <div class="card full-width">
+    <div class="card-header">
+      <div class="card-icon green">🎯</div>
+      <h2>Y9 Test Prep Checklist</h2>
+    </div>
+    <div class="two-col">
+      <div>
+        <h3>Python — Must Know</h3>
+        <ul class="check-list">
+          <li>Variables, data types, type conversion</li>
+          <li>If/elif/else with complex conditions</li>
+          <li>For loops with range() and enumerate()</li>
+          <li>While loops with break and continue</li>
+          <li>Lists — append, remove, index, slice, len</li>
+          <li>Dictionaries — create, access, loop, update</li>
+          <li>Functions with parameters and return values</li>
+          <li>Try/except for error handling</li>
+          <li>String methods — lower, strip, split, replace</li>
+          <li>File handling — read and write</li>
+          <li>Nested loops and nested functions</li>
+          <li>List comprehensions (bonus)</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Theory — Must Know</h3>
+        <ul class="check-list">
+          <li>Binary — convert to/from denary</li>
+          <li>Hexadecimal — convert to/from binary</li>
+          <li>CPU components — ALU, CU, registers, cache</li>
+          <li>Fetch-Decode-Execute cycle</li>
+          <li>RAM vs ROM vs storage</li>
+          <li>LAN vs WAN</li>
+          <li>IP address, MAC address, DNS, HTTP</li>
+          <li>Packets and how data travels</li>
+          <li>Types of malware and attacks</li>
+          <li>Encryption basics</li>
+          <li>Linear search and bubble sort</li>
+          <li>What an algorithm is</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tip" style="margin-top:1rem">The test is primarily coding — the Python section matters most. But theory questions may appear. Knowing both gives you the edge over other applicants.</div>
+  </div>
+
+</div>
+
+<p style="text-align:center; color: var(--muted); font-size:0.8rem; margin-top:2rem; padding:1rem">
+  Cheat Sheet 1 of 3 — Y9 DualCS Entry | Built for the Perse pathway to Hills Road → Cambridge
+</p>
+
+</body>
+</html>
